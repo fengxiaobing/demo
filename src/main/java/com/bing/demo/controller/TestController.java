@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import sun.rmi.runtime.Log;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TestController {
@@ -17,10 +18,10 @@ public class TestController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping("/searchUser/{username}")
+    @RequestMapping("/searchUser")
     public @ResponseBody
-   String searchUser(@PathVariable("username") String username) {
-        List<User> result = this.userRepository.findByUsernameContaining(username);
+   String searchUser() {
+        List<User> result = this.userRepository.findAll();
 
 //        User user = new User("asas","ihi");
 //        userRepository.saveAndFlush(user);
@@ -34,13 +35,11 @@ public class TestController {
 
     @RequestMapping(value = "/commitUser",method = RequestMethod.POST)
     public @ResponseBody
-    String commitUser(@RequestParam(value = "username", required = true) String name,
-                      @RequestParam(value = "userpwd", required = true) String pwd) {
-//        this.userRepository.saveAndFlush(user);
+    String commitUser(@RequestBody Map<String,Object> params) {
 
-        User user = new User(name,pwd);
-        userRepository.saveAndFlush(user);
 
+
+//        String loanOrderNbr = params.get("loanOrderNbr").toString();
         List<User> userList = this.userRepository.findAll();
 
         Result result = new Result();
